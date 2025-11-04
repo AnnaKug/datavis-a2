@@ -18,7 +18,7 @@ window.onload = () => {
             "translate(" + margin.left + "," + margin.top + ")");
 
   // Load the data set from the assets folder:
-  cars = FileAttachement("cars.csv")
+  d3.csv("cars.csv")
 
   // X scale
   var x = d3.scaleLinear()
