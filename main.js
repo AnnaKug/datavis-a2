@@ -17,32 +17,39 @@ window.onload = () => {
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-  // Load the data set from the assets folder:
-  d3.csv("cars.csv")
+  // Load the data
+  d3.csv("cars.csv").then(function(data) {
 
-  // X scale
-  var x = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.Horsepower))
-    .range([0, width]);
-  svg.append("g")
-    .attr("transform", `translate(0, ${height})`)
-    .call(d3.axisBottom(x));
+    // Convert numeric values from strings to numbers
+    data.forEach(d => {
+      d.Horsepower = +d.Horsepower;
+      d.MPG = +d.MPG;
+    });
 
-  // Y scale
-  var y = d3.scaleLinear()
-    .domain(d3.extent(data, d => d.MPG))
-    .range([height, 0]);
-  svg.append("g")
-    .call(d3.axisLeft(y));
+    // X scale
+    var x = d3.scaleLinear()
+      .domain(d3.extent(data, d => d.Horsepower))
+      .range([0, width]);
+    svg.append("g")
+      .attr("transform", `translate(0, ${height})`)
+      .call(d3.axisBottom(x));
 
-  // dots
-  svg.append("g")
-    .selectAll("dot")
-    .data(data)
-    .join("circle")
-      .attr("cx", d => x(d.Horsepower))
-      .attr("cy", d => y(d.MPG))
-      .attr("r", 4)
-      .style("fill", "#69b3a2");
+    // Y scale
+    var y = d3.scaleLinear()
+      .domain(d3.extent(data, d => d.MPG))
+      .range([height, 0]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // dots
+    svg.append("g")
+      .selectAll("circle")
+      .data(data)
+      .join("circle")
+        .attr("cx", d => x(d.Horsepower))
+        .attr("cy", d => y(d.MPG))
+        .attr("r", 4)
+        .style("fill", "#69b3a2");
+  });
       
 };
