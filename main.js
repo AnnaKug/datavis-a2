@@ -5,5 +5,5 @@ window.onload = () => {
   console.log("YOUR CODE GOES HERE");
 
   // Load the data set from the assets folder:
-
+  cars = FileAttachement("cars.csv")
 };
